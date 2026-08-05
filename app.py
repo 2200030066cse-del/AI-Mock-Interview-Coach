@@ -12,6 +12,7 @@ state produced by `workflow.InterviewSession` and turns button clicks into
 
 from __future__ import annotations
 
+import os
 import io
 import re
 import textwrap
@@ -19,6 +20,18 @@ import time
 from datetime import datetime
 
 import streamlit as st
+
+# Bridge Streamlit Community Cloud's secrets manager to os.environ BEFORE
+# importing any project modules below -- utils/llm.py reads LLM_PROVIDER
+# and the API keys at *import time* (module-level constants), so injecting
+# secrets any later would be too late for that first read. Locally, this is
+# a no-op: there's no secrets.toml, so it silently falls through and
+# python-dotenv's .env loading (inside utils/llm.py) takes over instead.
+try:
+    for _key, _value in st.secrets.items():
+        os.environ.setdefault(_key, str(_value))
+except Exception:
+    pass
 
 from models.schemas import CandidateProfile, FocusArea, InterviewState
 from utils.llm import usage_tracker

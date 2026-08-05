@@ -27,6 +27,7 @@ once it's running. This README covers architecture, design decisions, and how it
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [How to Run](#how-to-run)
+- [Live Deployment](#live-deployment-streamlit-community-cloud)
 - [Folder Structure](#folder-structure)
 - [Scoring Rubric](#scoring-rubric)
 - [Edge Case Handling](#edge-case-handling)
@@ -267,6 +268,34 @@ Interview**. Answer one question at a time; the sidebar shows live score, curren
 and topics covered. After the chosen number of questions, the Coach Agent's report renders automatically with
 downloadable transcript/report files.
 
+## Live Deployment (Streamlit Community Cloud)
+
+The app is ready to deploy on [Streamlit Community Cloud](https://share.streamlit.io) as-is --
+free, and it connects directly to this GitHub repo. Deploy your own copy:
+
+1. Go to [share.streamlit.io](https://share.streamlit.io) and sign in with GitHub.
+2. Click **New app**, select this repository, branch `main`, and main file `app.py`.
+3. Before (or right after) deploying, open **Advanced settings -> Secrets** and paste in your
+   config -- use [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example) as the
+   template (same variables as `.env.example`, just TOML syntax):
+   ```toml
+   LLM_PROVIDER = "groq"
+   GROQ_API_KEY = "gsk_your_key_here"
+   ```
+4. Click **Deploy**. First build takes a few minutes (installing `requirements.txt`); the app
+   redeploys automatically on every push to `main`.
+
+**How secrets reach the app:** Streamlit Cloud's secrets manager exposes config via `st.secrets`,
+not `os.environ` directly -- but the rest of the codebase (`utils/llm.py`) reads config via
+`os.getenv(...)`, the same as local `.env` development. `app.py` bridges the two: at startup, it
+copies everything in `st.secrets` into `os.environ` *before* importing any project modules (see
+the comment at the top of `app.py`), so `utils/llm.py`'s module-level config reads pick it up
+correctly whether you're running locally or deployed. Locally, where there's no `secrets.toml`,
+this bridge is a harmless no-op and `.env` (via `python-dotenv`) takes over instead.
+
+**Note:** `runtime.txt` pins the deployed Python version to 3.11 for compatibility with Streamlit
+Cloud's supported runtimes, independent of whatever Python version you use locally.
+
 ## Folder Structure
 
 ```
@@ -307,8 +336,10 @@ AI-Mock-Interview-Coach/
 ├── app.py                     # Streamlit UI
 ├── workflow.py                 # LangGraph StateGraph wiring all 4 agents together
 ├── requirements.txt
-├── .env.example
-├── .streamlit/config.toml      # Dark theme
+├── runtime.txt                  # Pins Python 3.11 for Streamlit Cloud
+├── .env.example                 # Local dev config template
+├── .streamlit/config.toml       # Dark theme
+├── .streamlit/secrets.toml.example  # Streamlit Cloud config template
 └── README.md
 ```
 

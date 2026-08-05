@@ -1,8 +1,9 @@
 # AI Mock Interview Coach 🎯
 
 A multi-agent AI system that conducts a realistic, adaptive mock interview and delivers a
-detailed coaching report at the end — built with **LangGraph**, **LangChain**, **OpenAI**, and
-**Streamlit**.
+detailed coaching report at the end — built with **LangGraph**, **LangChain**, **Streamlit**, and
+a pluggable LLM layer that runs on either **OpenAI** or **Groq** (this deployment runs on Groq's
+free tier).
 
 This is not three sequential LLM calls dressed up as "agents." Each agent has a distinct role,
 a distinct persona, distinct inputs/outputs, and the orchestration graph makes real branching
@@ -78,45 +79,62 @@ An editable version of this diagram is available in two formats:
 - **[`docs/architecture.drawio`](docs/architecture.drawio)** — open in [diagrams.net](https://app.diagrams.net) (File → Open From → Device), or in Lucidchart via File → Import → "draw.io".
 - **Lucidchart** (already created, live and editable): https://lucid.app/lucidchart/4d75d491-b13b-411d-9218-fe48767002fb/edit
 
+```mermaid
+flowchart TB
+    Start(["Candidate Input<br/>Streamlit UI: role, resume, focus, # questions"])
+
+    subgraph SG["LangGraph StateGraph (workflow.py)"]
+        direction TB
+        Planner["Planner Agent<br/>agents/planner.py<br/>Produces InterviewPlan"]
+        GenQ["Generate Question<br/>Interviewer Agent<br/>(agents/interviewer.py)"]
+        Await["Await Answer<br/>interrupt() -- pauses for Streamlit UI"]
+        Eval["Evaluate Answer<br/>Evaluator Agent<br/>(agents/evaluator.py)"]
+        Decision{"Should<br/>Continue?"}
+        Coach["Coach Agent<br/>agents/coach.py<br/>Produces CoachReport"]
+
+        Planner -- InterviewPlan --> GenQ
+        GenQ -- InterviewerTurn --> Await
+        Await -- "candidate's answer" --> Eval
+        Eval -- Evaluation.next_action --> Decision
+        Decision -- "Yes -- continue" --> GenQ
+        Decision -- "No -- target reached" --> Coach
+    end
+
+    Start --> Planner
+    Coach -- CoachReport --> End(["Final Report<br/>Streamlit UI: charts + downloads"])
+
+    LLM["LLM Provider<br/>OpenAI or Groq<br/>via utils/llm.py + prompts/*.txt"]
+    State["Shared State<br/>InterviewState (Pydantic)<br/>LangGraph MemorySaver checkpoint"]
+
+    Planner -.-> LLM
+    GenQ -.-> LLM
+    Eval -.-> LLM
+    Coach -.-> LLM
+    GenQ -.-> State
+    Await -.-> State
+    Eval -.-> State
+
+    classDef terminator fill:#343A40,color:#fff,stroke:none
+    classDef planner fill:#4263EB,color:#fff,stroke:none
+    classDef genq fill:#7048E8,color:#fff,stroke:none
+    classDef await fill:#9775FA,color:#fff,stroke:none
+    classDef eval fill:#E8590C,color:#fff,stroke:none
+    classDef decision fill:#F59F00,color:#212529,stroke:none
+    classDef coach fill:#2F9E44,color:#fff,stroke:none
+    classDef side fill:#E9ECEF,color:#212529,stroke:#868E96
+
+    class Start,End terminator
+    class Planner planner
+    class GenQ genq
+    class Await await
+    class Eval eval
+    class Decision decision
+    class Coach coach
+    class LLM,State side
 ```
-                                   ┌─────────────┐
-                                   │   Planner    │
-                                   │    Agent     │
-                                   └──────┬───────┘
-                                          │ InterviewPlan
-                                          ▼
-                     ┌───────────────────────────────────────┐
-                     │           generate_question             │
-                     │         (Interviewer Agent)              │
-                     └───────────────────┬───────────────────┘
-                                          │ InterviewerTurn
-                                          ▼
-                     ┌───────────────────────────────────────┐
-                     │              await_answer                │
-                     │   (pauses graph -- Streamlit UI answers)  │
-                     └───────────────────┬───────────────────┘
-                                          │ candidate answer
-                                          ▼
-                     ┌───────────────────────────────────────┐
-                     │                evaluate                   │
-                     │          (Evaluator Agent)                │
-                     └───────────────────┬───────────────────┘
-                                          │ Evaluation.next_action
-                                          ▼
-                                 ┌─────────────────┐
-                                 │  should_continue?  │
-                                 └───┬─────────┬───┘
-                            continue │         │ done (target Qs reached or is_final_question)
-                                     │         ▼
-                                     │   ┌─────────────┐
-                                     │   │    Coach     │
-                                     │   │    Agent     │
-                                     │   └──────┬──────┘
-                                     │          ▼
-                                     │         END
-                                     ▼
-                          (loop back to generate_question)
-```
+
+*(Dashed lines = every LLM-calling agent goes through the same provider wrapper and reads/writes
+the same shared state; solid lines = the actual control flow.)*
 
 This is implemented as a `langgraph.graph.StateGraph` over a single shared Pydantic state object
 (`InterviewState`, see `models/schemas.py`). See [`workflow.py`](workflow.py).

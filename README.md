@@ -429,8 +429,6 @@ Three full example interviews are included in [`sample_transcripts/`](sample_tra
    an extremely long rambling response, all in one interview.
 
 ## Screenshots
+<img width="3172" height="1908" alt="Screenshot 2026-08-06 025940" src="https://github.com/user-attachments/assets/922f4e10-5941-42c7-9d4f-06cc238f1911" />
 
-> _Add screenshots of the running app here before submitting — e.g._
-> - `docs/screenshot_intake_form.png` — the intake form
-> - `docs/screenshot_interview_chat.png` — an in-progress question with the sidebar visible
-> - `docs/screenshot_final_report.png` — the final coaching report with charts
+

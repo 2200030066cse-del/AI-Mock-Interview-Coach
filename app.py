@@ -572,7 +572,8 @@ def _classify_error(exc: Exception) -> dict:
             "title": "API key issue",
             "message": "The LLM provider rejected the request -- the API key is missing, invalid, or expired.",
             "tips": [
-                "Check that OPENAI_API_KEY or GROQ_API_KEY (matching LLM_PROVIDER) is set in your .env file.",
+                "Local dev: check OPENAI_API_KEY or GROQ_API_KEY (matching LLM_PROVIDER) is set in your .env file.",
+                "Streamlit Cloud: check Settings -> Secrets has the right key, then use Manage app -> Reboot app -- saving secrets alone doesn't restart the running process, so a previously-invalid value can stay in effect until you reboot.",
                 "Make sure there's no extra whitespace or stray quotes around the key.",
             ],
             "severity": "error",

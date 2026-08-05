@@ -1,0 +1,121 @@
+<mxfile host="app.diagrams.net" agent="AI Mock Interview Coach" version="24.0.0">
+  <diagram name="Architecture" id="architecture-page-1">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="AI Mock Interview Coach -- Multi-Agent Architecture" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="-50" width="1000" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- LangGraph container -->
+        <mxCell id="container" value="LangGraph StateGraph (workflow.py)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=#F1F3F5;strokeColor=#868E96;verticalAlign=top;fontSize=14;fontStyle=1;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="40" width="720" height="900" as="geometry" />
+        </mxCell>
+
+        <!-- Main flow nodes -->
+        <mxCell id="t_start" value="Candidate Input&#10;(Streamlit UI: role, resume, focus, # questions)" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#343A40;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="110" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_planner" value="Planner Agent&#10;agents/planner.py&#10;Produces InterviewPlan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4263EB;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="210" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_genq" value="Generate Question&#10;Interviewer Agent (agents/interviewer.py)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7048E8;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="330" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_await" value="Await Answer&#10;interrupt() -- pauses for Streamlit UI" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9775FA;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="450" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_eval" value="Evaluate Answer&#10;Evaluator Agent (agents/evaluator.py)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8590C;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="570" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d_continue" value="Should&#10;Continue?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F59F00;strokeColor=none;fontColor=#212529;" vertex="1" parent="1">
+          <mxGeometry x="570" y="690" width="220" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_coach" value="Coach Agent&#10;agents/coach.py&#10;Produces CoachReport" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2F9E44;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="850" y="700" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t_end" value="Final Report&#10;(Streamlit UI: charts + downloads)" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#343A40;strokeColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="850" y="820" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Side context boxes -->
+        <mxCell id="box_llm" value="LLM Provider&#10;OpenAI or Groq&#10;via utils/llm.py + prompts/*.txt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E9ECEF;strokeColor=#868E96;fontColor=#212529;" vertex="1" parent="1">
+          <mxGeometry x="40" y="330" width="260" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="box_state" value="Shared State&#10;InterviewState (Pydantic)&#10;LangGraph MemorySaver checkpoint" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E9ECEF;strokeColor=#868E96;fontColor=#212529;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="440" width="260" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note" value="Note: generate_question and await_answer are split into two nodes so LangGraph's interrupt() (which re-runs its enclosing node on resume) never re-triggers a duplicate LLM call for the same question." style="text;html=1;align=left;verticalAlign=top;fontSize=11;fontColor=#495057;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="340" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Main flow edges -->
+        <mxCell id="l1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#212529;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="t_start" target="n_planner">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="InterviewPlan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#212529;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="n_planner" target="n_genq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="InterviewerTurn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#212529;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="n_genq" target="n_await">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="candidate's answer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#212529;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="n_await" target="n_eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" value="Evaluation.next_action" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#212529;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="n_eval" target="d_continue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" value="No -- target reached" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2F9E44;strokeWidth=2;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="d_continue" target="n_coach">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l7" value="Yes -- continue" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#F59F00;strokeWidth=2;endArrow=block;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="d_continue" target="n_genq">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="745" />
+              <mxPoint x="460" y="375" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l8" value="CoachReport" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#212529;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="n_coach" target="t_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dashed reference edges -->
+        <mxCell id="d1" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_llm" target="n_planner">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_llm" target="n_genq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_llm" target="n_eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_llm" target="n_coach">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_state" target="n_genq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_state" target="n_await">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" style="edgeStyle=none;curved=1;html=1;strokeColor=#868E96;strokeWidth=1;dashed=1;endArrow=none;startArrow=none;" edge="1" parent="1" source="box_state" target="n_eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

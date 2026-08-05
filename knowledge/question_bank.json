@@ -1,0 +1,205 @@
+{
+  "roles": [
+    {
+      "id": "frontend_engineer",
+      "keywords": ["frontend", "front-end", "front end", "ui engineer", "web developer", "react developer", "javascript engineer"],
+      "core_topics": [
+        "Component state management and re-render behavior (React/Vue/Angular)",
+        "JavaScript fundamentals: closures, event loop, promises/async-await",
+        "CSS layout systems (flexbox, grid) and responsive design tradeoffs",
+        "Frontend performance (bundle size, lazy loading, render blocking)",
+        "Accessibility (ARIA, keyboard navigation, semantic HTML)",
+        "API integration and handling loading/error states in the UI"
+      ],
+      "sample_question_themes": [
+        "Explain what happens end-to-end when a user clicks a button that triggers a state update.",
+        "Debug a component that re-renders far more than expected.",
+        "Walk through a real UI performance problem you diagnosed and fixed.",
+        "Design a reusable component API for a data table with sorting and pagination.",
+        "How would you make a custom dropdown component accessible?"
+      ]
+    },
+    {
+      "id": "backend_engineer",
+      "keywords": ["backend", "back-end", "back end", "api engineer", "server-side", "server side engineer"],
+      "core_topics": [
+        "REST/GraphQL API design: pagination, versioning, idempotency",
+        "Database indexing, query performance, and normalization tradeoffs",
+        "Concurrency and async I/O in the language/runtime used",
+        "Caching strategies and cache invalidation",
+        "Authentication/authorization patterns (sessions, JWT, OAuth)",
+        "Handling a production incident: diagnosis, mitigation, postmortem"
+      ],
+      "sample_question_themes": [
+        "Design pagination for an endpoint returning millions of rows.",
+        "What happens to your service if a downstream dependency starts timing out?",
+        "Walk through debugging a slow SQL query in production.",
+        "Design a rate limiter for a public API.",
+        "Tell me about an incident you diagnosed under time pressure."
+      ]
+    },
+    {
+      "id": "fullstack_engineer",
+      "keywords": ["full stack", "fullstack", "full-stack"],
+      "core_topics": [
+        "End-to-end feature ownership: API contract design to UI state",
+        "Tradeoffs between client-side and server-side rendering",
+        "Data modeling that serves both API and UI needs cleanly",
+        "Testing strategy across the stack (unit, integration, e2e)",
+        "Deployment and environment/configuration management"
+      ],
+      "sample_question_themes": [
+        "Walk through how you'd design and ship a new feature from database to UI.",
+        "When would you choose server-side rendering over a client-rendered SPA?",
+        "Describe a time you had to make a tradeoff between frontend and backend complexity.",
+        "How do you decide what belongs in the API versus computed in the client?"
+      ]
+    },
+    {
+      "id": "data_analyst",
+      "keywords": ["data analyst", "business analyst", "analytics analyst", "reporting analyst"],
+      "core_topics": [
+        "SQL: joins, aggregations, window functions",
+        "Descriptive statistics and when mean/median mislead (outliers, skew)",
+        "Translating an ambiguous business question into an analysis plan",
+        "Data quality issues: duplicates, missing data, inconsistent definitions",
+        "Communicating findings to a non-technical stakeholder",
+        "A/B test basics: significance, sample size, common pitfalls"
+      ],
+      "sample_question_themes": [
+        "Write a query to find total sales per region from a raw transactions table.",
+        "The average order value went up -- how do you figure out why, and is that even good news?",
+        "A stakeholder asks you to 'make the dashboard faster' with no more detail. What do you do first?",
+        "How would you detect that an A/B test result is misleading?",
+        "Walk through a time your analysis changed a decision."
+      ]
+    },
+    {
+      "id": "data_scientist",
+      "keywords": ["data scientist", "applied scientist", "research scientist"],
+      "core_topics": [
+        "Model selection tradeoffs (bias/variance, interpretability vs. accuracy)",
+        "Feature engineering and avoiding data leakage",
+        "Evaluation metrics appropriate to the problem (not just accuracy)",
+        "Experiment design and statistical significance",
+        "Communicating uncertainty and model limitations to stakeholders",
+        "Productionizing a model: monitoring for drift and degradation"
+      ],
+      "sample_question_themes": [
+        "How would you detect and prevent data leakage in a training pipeline?",
+        "A classifier has 99% accuracy on an imbalanced dataset -- is that good? Why or why not?",
+        "Design an experiment to test whether a new recommendation algorithm improves engagement.",
+        "How would you explain a model's prediction to a non-technical stakeholder who distrusts it?",
+        "How do you monitor a deployed model for performance drift?"
+      ]
+    },
+    {
+      "id": "ml_engineer",
+      "keywords": ["machine learning engineer", "ml engineer", "mle", "ai engineer", "applied ai engineer"],
+      "core_topics": [
+        "Training pipeline design: data versioning, reproducibility",
+        "Serving tradeoffs: latency, batching, model size vs. accuracy",
+        "Prompt engineering and structured output reliability for LLM systems",
+        "Evaluation harnesses for LLM-based features (not just vibes-based testing)",
+        "Cost/latency tradeoffs across model providers",
+        "Debugging a model that performs well offline but poorly in production"
+      ],
+      "sample_question_themes": [
+        "How would you design an evaluation harness for an LLM-powered feature before shipping it?",
+        "A model performs well in offline evaluation but poorly in production -- how do you debug that gap?",
+        "How do you make an LLM's output reliably parseable as structured JSON?",
+        "Design a system to safely roll out a new model version without regressing existing users.",
+        "How would you reduce latency and cost for a real-time inference endpoint?"
+      ]
+    },
+    {
+      "id": "devops_sre",
+      "keywords": ["devops", "sre", "site reliability", "infrastructure engineer", "platform engineer"],
+      "core_topics": [
+        "CI/CD pipeline design and deployment strategies (blue/green, canary)",
+        "Observability: metrics, logs, traces, and what to alert on",
+        "Incident response and postmortem culture",
+        "Infrastructure as code and configuration drift",
+        "Capacity planning and autoscaling tradeoffs",
+        "Security basics: secrets management, least privilege"
+      ],
+      "sample_question_themes": [
+        "Design a deployment strategy that minimizes blast radius for a risky release.",
+        "What would you alert on for a service you're on call for, and why not alert on everything?",
+        "Walk through a production incident postmortem you led or contributed to.",
+        "How do you prevent configuration drift across environments?",
+        "How would you plan capacity for a service with unpredictable traffic spikes?"
+      ]
+    },
+    {
+      "id": "mobile_engineer",
+      "keywords": ["ios engineer", "android engineer", "mobile engineer", "swift developer", "kotlin developer"],
+      "core_topics": [
+        "App lifecycle and state restoration",
+        "Offline-first design and local data sync strategies",
+        "Memory management and performance on constrained devices",
+        "Navigation architecture and deep linking",
+        "Testing strategy for UI and platform-specific behavior"
+      ],
+      "sample_question_themes": [
+        "How does your app handle being backgrounded and losing network mid-request?",
+        "Design an offline-first sync strategy for a notes app.",
+        "Debug an app that's slow to launch on older devices.",
+        "How do you structure navigation for a deep-linked, multi-tab app?"
+      ]
+    },
+    {
+      "id": "product_manager",
+      "keywords": ["product manager", "apm", "associate product manager", "product owner"],
+      "core_topics": [
+        "Prioritization frameworks (impact/effort, RICE) under ambiguity",
+        "Writing a crisp problem statement from a vague stakeholder ask",
+        "Defining and reasoning about success metrics for a feature",
+        "Working cross-functionally with engineering and design under constraints",
+        "Saying no to a stakeholder request and managing the relationship",
+        "Post-launch: reading data and deciding iterate vs. kill"
+      ],
+      "sample_question_themes": [
+        "A stakeholder wants a feature built 'because a competitor has it.' How do you respond?",
+        "Walk through how you'd prioritize three roughly-equal-value feature requests with one engineer.",
+        "How would you define success metrics for a new onboarding flow?",
+        "Tell me about a time you had to say no to a request from leadership.",
+        "A feature launched and metrics are flat -- how do you decide whether to iterate or kill it?"
+      ]
+    },
+    {
+      "id": "qa_test_engineer",
+      "keywords": ["qa engineer", "quality assurance", "test engineer", "sdet", "qa analyst"],
+      "core_topics": [
+        "Test strategy: unit vs. integration vs. e2e, and where to invest",
+        "Writing test cases for ambiguous or under-specified requirements",
+        "Flaky test diagnosis and prevention",
+        "Risk-based prioritization when time is limited before a release",
+        "Automation framework design and maintainability"
+      ],
+      "sample_question_themes": [
+        "How do you decide what to automate versus test manually?",
+        "A test suite has become flaky and the team is starting to ignore failures -- what do you do?",
+        "Design a test plan for a login flow with third-party SSO.",
+        "You have two days before release and can't test everything -- how do you prioritize?"
+      ]
+    },
+    {
+      "id": "general_behavioral",
+      "keywords": [],
+      "core_topics": [
+        "Explaining a past project's architecture and a real tradeoff made",
+        "Handling disagreement with a teammate or manager",
+        "Working under ambiguity with incomplete requirements",
+        "Receiving and acting on critical feedback",
+        "Balancing competing priorities under a deadline"
+      ],
+      "sample_question_themes": [
+        "Tell me about a project you're proud of and a tradeoff you had to make.",
+        "Describe a time you disagreed with a decision -- what did you do?",
+        "Tell me about a time requirements changed midway through your work.",
+        "How do you handle receiving feedback that's hard to hear?"
+      ]
+    }
+  ]
+}

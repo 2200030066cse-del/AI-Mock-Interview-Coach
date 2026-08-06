@@ -430,5 +430,14 @@ Three full example interviews are included in [`sample_transcripts/`](sample_tra
 
 ## Screenshots
 <img width="3172" height="1908" alt="Screenshot 2026-08-06 025940" src="https://github.com/user-attachments/assets/922f4e10-5941-42c7-9d4f-06cc238f1911" />
-
-
+<img width="3164" height="1842" alt="Screenshot 2026-08-06 114519" src="https://github.com/user-attachments/assets/ad300b2a-2fcc-49d6-93f4-aaf9df942487" />
+<img width="3188" height="1820" alt="Screenshot 2026-08-06 115724" src="https://github.com/user-attachments/assets/b0b111e1-7b77-4729-8a6f-bb5f4b9fa8fd" />
+<img width="3198" height="1834" alt="Screenshot 2026-08-06 115745" src="https://github.com/user-attachments/assets/423346e4-d76c-42e0-a83e-1a37bd20bb33" />
+<img width="3192" height="1834" alt="Screenshot 2026-08-06 115758" src="https://github.com/user-attachments/assets/3fb275a5-d671-4d5a-ba1e-b8ff87310686" />
+<img width="3194" height="1824" alt="Screenshot 2026-08-06 115813" src="https://github.com/user-attachments/assets/836ad74a-5c7a-4ef3-81d8-edcb0b4075e9" />
+<img width="3186" height="1824" alt="Screenshot 2026-08-06 115827" src="https://github.com/user-attachments/assets/e52b6aca-f153-4981-a49b-072507c0a956" />
+<img width="3194" height="1820" alt="Screenshot 2026-08-06 115853" src="https://github.com/user-attachments/assets/91ef2a45-a1f0-4225-b78b-18ba70d2cba1" />
+<img width="3200" height="1824" alt="Screenshot 2026-08-06 115906" src="https://github.com/user-attachments/assets/107ab381-2211-44cc-91a9-1eaac961210d" />
+<img width="3198" height="1820" alt="Screenshot 2026-08-06 115919" src="https://github.com/user-attachments/assets/00a5fbea-dcfd-4e18-82e4-50afbeef3b87" />
+<img width="3192" height="1818" alt="Screenshot 2026-08-06 115935" src="https://github.com/user-attachments/assets/5c0f2b27-1052-4291-91b2-cc69e1bad57d" />
+<img width="3198" height="1820" alt="Screenshot 2026-08-06 115947" src="https://github.com/user-attachments/assets/0d889153-3a2b-4076-abac-74aa2001aa40" />
